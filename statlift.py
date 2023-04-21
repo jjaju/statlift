@@ -8,6 +8,16 @@ import re
 from typing import Dict, Tuple
 
 
+def v_space(lines: int) -> None:
+    """Super hacky solution to add vertical white space.
+
+    Args:
+        lines (int): Number of lines of white space.
+    """
+    for _ in range(lines):
+        st.write('&nbsp;')
+
+
 def infer_column_names(data: pd.DataFrame, column_definitions: Dict) -> Dict:
     """Infers the dataframe's language and returns the corresponging column names.
 
@@ -23,13 +33,23 @@ def infer_column_names(data: pd.DataFrame, column_definitions: Dict) -> Dict:
         Dict: Applicable mapping of column names.
     """
     try:
-        _ = data["Date"]
-        return column_definitions["ENG"]
+        _ = data["Duration"]
+        return column_definitions["ENG_IOS"]
     except Exception:
         pass
     try:
-        _ = data["Datum"]
-        return column_definitions["GER"]
+        _ = data["Workout Duration"]
+        return column_definitions["ENG_ANDROID"]
+    except Exception:
+        pass
+    try:
+        _ = data["Dauer"]
+        return column_definitions["GER_IOS"]
+    except Exception:
+        pass
+    try:
+        _ = data["Workout-Dauer"]
+        return column_definitions["GER_ANDROID"]
     except Exception:
         pass
 
@@ -102,7 +122,7 @@ if __name__ == "__main__":
         # load data
         data = pd.read_csv(st.session_state["csv"], sep=None, engine="python")
         json_path = join(dirname(__file__), "columns.json")
-        with open(json_path) as f:
+        with open(json_path, encoding='utf8') as f:
             column_definitions = json.load(f)
         columns = infer_column_names(data, column_definitions)
 
@@ -193,7 +213,7 @@ if __name__ == "__main__":
     prev_exercise_data = prev_exercise_data.iloc[:-1]
 
     # 2a. metrics
-    st.write("##")
+    v_space(1)
     st.write(f"##### :bar_chart: Metrics for *{exercise_filter}*:")
     ecl1, ecl2, ecl3, ecl4 = st.columns(4)
     
@@ -274,7 +294,7 @@ if __name__ == "__main__":
     )
 
     # 2b. graphs
-    st.write("##")
+    v_space(1)
     st.write(f"##### :chart_with_upwards_trend: Graphs for *{exercise_filter}*:")
  
     metric_to_column = {
@@ -314,12 +334,12 @@ if __name__ == "__main__":
     data = data[data[columns["WORKOUT_NAME"]] == workout_filter]
     
     # 3a. metrics
-    st.write("##")
+    v_space(1)
     st.write(f"##### :bar_chart: Metrics for workout routine *{workout_filter}*:")
     show_total_stats(data)
 
     # 3b. graphs
-    st.write("##")
+    v_space(1)
     st.write(f"##### :chart_with_upwards_trend: Graphs for *{workout_filter}*:")
     workout_data = data.groupby("workout_uid").agg(**{
         "date": (columns["DATE"], "max"),

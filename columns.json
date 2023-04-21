@@ -1,21 +1,49 @@
 {
-    "GER": {
+    "GER_IOS": {
         "DATE": "Datum",
         "WORKOUT_NAME": "Workout-Name",
         "EXERCISE_NAME": "Name der Übung",
         "SET_ORDER": "Reihenfolge festlegen",
         "WEIGHT": "Gewicht",
-        "WEIGHT_UNIT": "Weight Unit",
         "REPS": "Wiederh.",
         "RPE": "RPE",
         "DISTANCE": "Entfernung",
-        "DISANCE_UNIT": "Distance Unit",
         "SECONDS": "Sekunden",
         "NOTES": "Notizen",
         "WORKOUT_NOTES": "Workout-Notizen",
         "WORKOUT_DURATION": "Dauer"
     },
-    "ENG": {
+    "GER_ANDROID": {
+        "DATE": "Datum",
+        "WORKOUT_NAME": "Workout-Name",
+        "EXERCISE_NAME": "Name der Übung",
+        "SET_ORDER": "Reihenfolge festlegen",
+        "WEIGHT": "Gewicht",
+        "REPS": "Wiederh.",
+        "RPE": "RPE",
+        "DISTANCE": "Entfernung",
+        "SECONDS": "Sekunden",
+        "NOTES": "Notizen",
+        "WORKOUT_NOTES": "Workout-Notizen",
+        "WORKOUT_DURATION": "Workout-Dauer"
+    },
+    "ENG_IOS": {
+        "DATE": "Date",
+        "WORKOUT_NAME": "Workout Name",
+        "EXERCISE_NAME": "Exercise Name",
+        "SET_ORDER": "Set Order",
+        "WEIGHT": "Weight",
+        "WEIGHT_UNIT": "Weight Unit",
+        "REPS": "Reps",
+        "RPE": "RPE",
+        "DISTANCE": "Distance",
+        "DISANCE_UNIT": "Distance Unit",
+        "SECONDS": "Seconds",
+        "NOTES": "Notes",
+        "WORKOUT_NOTES": "Workout Notes",
+        "WORKOUT_DURATION": "Duration"
+    },
+    "ENG_ANDROID": {
         "DATE": "Date",
         "WORKOUT_NAME": "Workout Name",
         "EXERCISE_NAME": "Exercise Name",
