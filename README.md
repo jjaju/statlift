@@ -7,7 +7,7 @@ StatLift is a web app that enables users of the [Strong App](https://www.strong.
 
 StatLift was built with [Streamlit](https://streamlit.io/) and is hosted on the Streamlit Community Cloud. 
 
-Find it here: https://jjaju-statlift-statlift-amb2ux.streamlit.app/
+Find it here: https://statlift.streamlit.app/
 
 I'm neither a Streamlit expert nor physically able to produce the most impressive dataset for stress testing StatLift, so feel free to leave feedback or suggestions for improvement by opening a new [issue](https://github.com/jjaju/statlift/issues).
 
@@ -17,7 +17,7 @@ I'm neither a Streamlit expert nor physically able to produce the most impressiv
 
     > *Profile -> Settings -> Export Strong Data*
 
-2. Visit https://jjaju-statlift-statlift-amb2ux.streamlit.app/
+2. Visit https://statlift.streamlit.app/
 
 3. Upload your exported csv file and celebrate your training progress
 
