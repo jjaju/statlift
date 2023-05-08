@@ -73,11 +73,12 @@ class SePump:
             return column_definitions["GER_ANDROID"]
         except Exception:
             pass
-
+        
         raise Exception("Language of data not supported.")
 
     def clean_data(self) -> None:
         """Performs initial data cleaning of given workout data."""
+        self.data = self.data.drop_duplicates(keep="first")
         self.data = self.data[[
             self.columns["DATE"],
             self.columns["WORKOUT_NAME"],
@@ -89,11 +90,12 @@ class SePump:
         self.data.dropna(subset=[self.columns["WEIGHT"], self.columns["REPS"]], how='all', inplace=True)
         self.data[self.columns["WEIGHT"]] = self.data[self.columns["WEIGHT"]].fillna(0)
         self.data[self.columns["REPS"]] = self.data[self.columns["REPS"]].fillna(0)
-        self.data[self.columns["DATE"]] = pd.to_datetime(self.data[self.columns["DATE"]]).dt.date
         self.data["workout_uid"] = (
             self.data[self.columns["WORKOUT_NAME"]]
             + self.data[self.columns["DATE"]].copy().astype(str)
+            + self.data[self.columns["WORKOUT_DURATION"]]
         )
+        self.data[self.columns["DATE"]] = pd.to_datetime(self.data[self.columns["DATE"]]).dt.date
         self.data["volume"] = self.data[self.columns["WEIGHT"]] * self.data[self.columns["REPS"]]
         self.data[self.columns["WORKOUT_DURATION"]] = self.data[self.columns["WORKOUT_DURATION"]].apply(
             self.__convert_duration_to_minutes

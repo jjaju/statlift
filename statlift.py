@@ -49,10 +49,8 @@ if __name__ == "__main__":
     # load csv file
     st.write("## :page_facing_up: Upload csv file (exported from Strong-App):")
     csv = st.file_uploader("_", label_visibility="hidden", on_change=on_csv_upload)
-    # st.session_state["csv"] = csv
 
     # # don't calculate / render rest of the page if no csv is provided
-    # if st.session_state["csv"] is None:
     if csv is None:
         exit()
     
@@ -60,7 +58,15 @@ if __name__ == "__main__":
     if st.session_state["updated_csv"]:
         sepump.load_data(csv)
         columns_path = join(dirname(__file__), "columns.json")
-        sepump.load_column_names(columns_path)
+        try:
+            sepump.load_column_names(columns_path)
+        except Exception:
+            st.error(
+                "Seems like your language is not supported by StatLift. \
+                Currently supported languages: English & German. \
+                If you want your language to be added to StatLift, please open an issue on GitHub: \n \n \
+                https://github.com/jjaju/statlift/issues")
+            exit()
         sepump.clean_data()
         st.session_state["cleaned_data"] = sepump.data
         st.session_state["data"] = sepump.data
