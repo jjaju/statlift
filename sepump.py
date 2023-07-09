@@ -85,11 +85,15 @@ class SePump:
             self.columns["EXERCISE_NAME"],
             self.columns["WEIGHT"],
             self.columns["REPS"],
-            self.columns["WORKOUT_DURATION"]
+            self.columns["WORKOUT_DURATION"],
+            self.columns["NOTES"]
         ]]
         self.data.dropna(subset=[self.columns["WEIGHT"], self.columns["REPS"]], how='all', inplace=True)
         self.data[self.columns["WEIGHT"]] = self.data[self.columns["WEIGHT"]].fillna(0)
         self.data[self.columns["REPS"]] = self.data[self.columns["REPS"]].fillna(0)
+        # hacky way of dealing with differently formatted decimal numbers, assuming nobody goes beyond 1000 kg
+        self.data[self.columns["WEIGHT"]] = self.data[self.columns["WEIGHT"]].replace(",", ".", regex=True).astype(np.single)
+        self.data[self.columns["REPS"]] = self.data[self.columns["REPS"]].replace(",", ".", regex=True).astype(np.single)
         self.data["workout_uid"] = (
             self.data[self.columns["WORKOUT_NAME"]]
             + self.data[self.columns["DATE"]].copy().astype(str)
@@ -127,13 +131,14 @@ class SePump:
         )
         self.exercise_data = exercise_data.groupby("workout_exercise_uid").agg(**{
             "date": (self.columns["DATE"], "max"),
-            "exercise": (self.columns["EXERCISE_NAME"], "unique"),
+            "exercise": (self.columns["EXERCISE_NAME"], "first"),
             "mean_reps": (self.columns["REPS"], "mean"),
             "max_weight": (self.columns["WEIGHT"], "max"),
             "max_reps": (self.columns["REPS"], "max"),
             "max_volume": ("volume", "max"),
             "total_volume": ("volume", "sum"),
-            "total_reps": (self.columns["REPS"], "sum")
+            "total_reps": (self.columns["REPS"], "sum"),
+            "notes": (self.columns["NOTES"], "first")
         })
         self.exercise_data["mean_weight"] = self.exercise_data["total_volume"] / self.exercise_data["total_reps"]
         self.prev_exercise_data = self.exercise_data.sort_values(by="date")

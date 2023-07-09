@@ -179,6 +179,11 @@ if __name__ == "__main__":
         ).mark_line(point=True).encode(
             x=alt.X("date", title="Date"),
             y=alt.Y(metric_to_column[metric], title=metric),
+            tooltip=[
+                alt.Tooltip("date", title="Date"),
+                alt.Tooltip(metric_to_column[metric], title=metric),
+                alt.Tooltip("notes", title="Notes")
+            ]
         )
         chart += chart.transform_regression('date', metric_to_column[metric]).mark_line(color="red")
         col.altair_chart(chart, use_container_width=True)
@@ -190,7 +195,7 @@ if __name__ == "__main__":
     st.divider()
     st.write("## :repeat: Metrics for individual workout routines:")
     workout_filter = st.selectbox(
-        "**Select workout routine**", 
+        "**Select workout routine**",
         pd.unique(st.session_state["data"][st.session_state["columns"]["WORKOUT_NAME"]]),
         on_change=on_workout_change
     )
