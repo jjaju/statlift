@@ -201,23 +201,28 @@ class SePump:
         """Converts workout duration from string representation to integers.
 
         Args:
-            duration (str): Duration in the format "<hours>h <minutes>m" or 
-            "<minutes>m" (e.g. 1h 20m)
+            duration (str): Duration in the format "<hours>h <minutes>m",
+            "<hours>h", or "<minutes>m" (e.g. "1h 20m", "3h", or "30m").
 
         Returns:
-            int: The corresponding number of minutes (e.g. "1h 20m" will return 
-            80)
-        """
-        # Initialize the total duration in minutes
-        total_minutes = 0
+            int: The corresponding number of minutes (e.g. "1h 20m" will return
+            80).
         
+        Raises:
+            ValueError: If the duration format is invalid.
+        """
         # Regex to match hours and minutes
-        match = re.match(r'(?:(\d+)h)?\s*(?:(\d+)m)?', duration)
-        if match:
-            hours = match.group(1)
-            minutes = match.group(2)
-            if hours:
-                total_minutes += int(hours) * 60
-            if minutes:
-                total_minutes += int(minutes)
+        match = re.match(r'^(?:(\d+)h)?\s*(?:(\d+)m)?', duration)
+        hours = match.group(1)
+        minutes = match.group(2)
+
+        if not match or not (hours or minutes):
+            raise ValueError("Invalid duration format.")
+
+        total_minutes = 0
+        if hours:
+            total_minutes += int(hours) * 60
+        if minutes:
+            total_minutes += int(minutes)
+        
         return total_minutes
